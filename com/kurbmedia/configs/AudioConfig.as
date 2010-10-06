@@ -1,5 +1,6 @@
 package com.kurbmedia.configs{
 	
+	import com.kurbmedia.events.PlayerEvent;
 	import com.kurbmedia.events.AudioEvent;
 	
 	public class AudioConfig{
@@ -17,7 +18,7 @@ package com.kurbmedia.configs{
 		
 		// This function is called when the stage is finished drawing all elements based on the passed configuration.
 		
-		public function render_complete(e:AudioEvent){
+		public function render_complete(e:PlayerEvent){
 			
 		}
 		

@@ -6,7 +6,7 @@ package com.kurbmedia.events{
 	
 		public function AudioEvent(val:String, obj = null){
 			object = obj;
-			super(val, true, false);
+			super(val, object);
 		}
 	}
 	
