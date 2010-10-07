@@ -11,15 +11,17 @@ package com.kurbmedia.mediaplayers.drawing{
 			
 			if(player_data.strokeColor != undefined) this.graphics.lineStyle(1, uint(player_data.strokeColor));
 			
-			var bgcolor = convert_to_uint(player_data.backgroundColor)
+			if(player_data.backgroundColor != undefined){
+				var bgcolor = convert_to_uint(player_data.backgroundColor)
 			
-			if(bgcolor is Array){
-				var matr:Matrix = new Matrix();
-				matr.createGradientBox(_w,_h,90,0,0);
-				this.graphics.beginGradientFill('linear', bgcolor, [1,1], [0x00, 0xFF], matr);
-			}else{
-				this.graphics.beginFill(bgcolor);
-			}		
+				if(bgcolor is Array){
+					var matr:Matrix = new Matrix();
+					matr.createGradientBox(_w,_h,90,0,0);
+					this.graphics.beginGradientFill('linear', bgcolor, [1,1], [0x00, 0xFF], matr);
+				}else{
+					this.graphics.beginFill(bgcolor);
+				}		
+			}
 
 			if(player_data.borderRadius != undefined){
 				this.graphics.drawRoundRect(_x, _y, _w, _h, player_data.borderRadius);
