@@ -34,18 +34,22 @@ package com.kurbmedia.mediaplayers{
 			
 			addEventListener(PlayerEvent.RENDER_COMPLETE, _config.render_complete);
 			
-			player_data = {
-				'backgroundColor':"0xFFFFFF",
-				'autoPlay':true,
-				'borderRadius':'10',
-				'buttonColor':"0xFF0000",
-				'buttonHoverColor':"0x777777",
-				'buttonDownColor':"0x999999",
-				'iconColor':"0xFFFFFF",
-				'progressBarStrokeColor':"0x000000",
-				'progressBarColor':"0xFF0000",
-				'file':'http://hannahkeeley.com/system/program_assets/4/day1.mp3'
-			};
+			/*
+				Player data variables:
+				backgroundColor:String  		- Background color for player          
+				borderRadius:int        		- Border radius of player              
+				buttonColor:String				- Button background color              
+				buttonHoverColor:String 		- Button background color on hover     
+				buttonDownColor:String  		- Button background color on mouse_down
+				iconColor:String				- Color of icons used on buttons       
+				progressBarStrokeColor:String	- Color of progress bar outline
+				progressBarColor:String			- Background color for actual progress bar
+				file:String						- URL of the file to play
+				autoPlay:Boolean				- Should the audio auto-play?
+			*/
+
+
+			player_data = new Object();
 			
 			if(root.loaderInfo.parameters.configure != undefined){
 				for(var i in root.loaderInfo.parameters.configure) player_data[i] = root.loaderInfo.parameters.configure[i];
