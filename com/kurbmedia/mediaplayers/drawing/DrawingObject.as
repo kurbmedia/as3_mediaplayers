@@ -1,4 +1,4 @@
-package com.kurbmedia.drawing{
+package com.kurbmedia.mediaplayers.drawing{
 	
 	import flash.display.Sprite;
 	import flash.geom.*

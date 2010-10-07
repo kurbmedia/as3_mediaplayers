@@ -1,7 +1,6 @@
-package com.kurbmedia.configs{
+package com.kurbmedia.mediaplayers.configs{
 	
-	import com.kurbmedia.events.PlayerEvent;
-	import com.kurbmedia.events.AudioEvent;
+	import com.kurbmedia.mediaplayers.events.PlayerEvent;
 	
 	public class AudioConfig{
 		
@@ -22,40 +21,33 @@ package com.kurbmedia.configs{
 			
 		}
 		
-		// This function is called when the audio initially starts playing, or any time audio
-		// starts or is re-started from the beginning.
-		
-		public function audio_start(e:AudioEvent){
-			
-		}
-		
 		// This function is called any time the audio is paused.
 		
-		public function audio_paused(e:AudioEvent){
+		public function audio_paused(e:PlayerEvent){
 			
 		}
 		
-		// This function is called any time the audio is un-paused.
+		// This function is called any time the audio is told to play, this includes initial play and un-pause.
 		
-		public function audio_unpaused(e:AudioEvent){
+		public function audio_playing(e:PlayerEvent){
 			
 		}
 		
 		// This function is called any time the audio is explicitly stopped (not paused).
 		
-		public function audio_stopped(e:AudioEvent){
+		public function audio_stopped(e:PlayerEvent){
 			
 		}
 		
 		// This function is called any time the audio is muted.
 		
-		public function audio_mute(e:AudioEvent){
+		public function audio_mute(e:PlayerEvent){
 			
 		}
 		
 		// This function is called any time the audio is un-muted.
 		
-		public function audio_unmute(e:AudioEvent){
+		public function audio_unmute(e:PlayerEvent){
 			
 		}
 		
