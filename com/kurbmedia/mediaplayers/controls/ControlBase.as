@@ -42,7 +42,7 @@ package com.kurbmedia.mediaplayers.controls{
 		}
 		
 		protected function dispatch_event(e:*){
-			_root.dispatchEvent(e);
+			dispatchEvent(e);
 		}
 		
 		private function manage_states(e:MouseEvent){

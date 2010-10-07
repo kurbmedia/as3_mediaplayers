@@ -29,9 +29,11 @@ package com.kurbmedia.mediaplayers.controls{
 			if(contains(mute_button)){
 				removeChild(mute_button);
 				addChild(unmute_button);
+				dispatch_event(new PlayerEvent(PlayerEvent.MUTE_DATA));
 			}else{
 				removeChild(unmute_button);
 				addChild(mute_button);
+				dispatch_event(new PlayerEvent(PlayerEvent.UNMUTE_DATA));
 			}
 		}
 				
