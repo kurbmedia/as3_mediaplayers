@@ -19,7 +19,7 @@
 				
 			Available attributes for buttons: backgroundColor, iconColor, hoverColor, downColor
 			Available attributes for progress bar: backgroundColor, strokeColor, stroke (thickness)
-			Available attributes for timer test: fontColor
+			Available attributes for timer text: fontColor
 			
 		-->
 		<control name="play_pause_button" iconColor="" hoverColor="" downColor="" />
