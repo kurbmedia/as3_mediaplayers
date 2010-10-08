@@ -4,6 +4,8 @@
 -->
 <config>
 	<player backgroundColor="0x06A9DE" strokeColor="0x333333" borderRadius="10" stroke="2" />
+	<!-- Setup default colors here. -->
+	<defaults backgroundColor="0x04455b,0x042530" />
 	<controls>
 		<!-- 
 			
@@ -20,9 +22,9 @@
 			Available attributes for timer test: fontColor
 			
 		-->
-		<control name="play_pause_button" backgroundColor="0x04455b,0x042530" iconColor="" hoverColor="" downColor="" />
-		<control name="mute_button" backgroundColor="0x04455b,0x042530" iconColor="" hoverColor="" downColor="" />
-		<control name="progress_bar" backgroundColor="0x04455b,0x042530" strokeColor="" stroke="2" />
+		<control name="play_pause_button" iconColor="" hoverColor="" downColor="" />
+		<control name="mute_button" iconColor="" hoverColor="" downColor="" />
+		<control name="progress_bar" strokeColor="" stroke="2" />
 		<control name="timer_text" fontColor="0xFFFFFF" />
 	</controls>
 </config>

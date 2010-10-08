@@ -113,8 +113,16 @@ package com.kurbmedia.mediaplayers.controls{
 			bg_normal.y = bg_down.y = bg_hover.y = 0;
 			
 			bg_normal.draw(player_data);
-			bg_hover.draw(player_data.hoverColor);
-			bg_down.draw(player_data.downColor);
+			
+			var alt_data = player_data;
+			alt_data.backgroundColor = player_data.hoverColor
+			
+			bg_hover.draw(alt_data);
+			
+			alt_data = player_data;
+			alt_data.backgroundColor = player_data.downColor;
+			
+			bg_down.draw(player_data);
 			
 			addChildAt(bg_normal, 0);
 			

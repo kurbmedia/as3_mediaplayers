@@ -14,11 +14,13 @@ package com.kurbmedia.mediaplayers.drawing{
 				var stroke     = parseInt(player_data.stroke);
 				var line_color = (player_data.strokeColor == undefined) ? "0x000000" : player_data.strokeColor;
 				
-				this.graphics.lineStyle(stroke, uint(line_color), 1, true);
-				_w = _w - stroke;
-				_h = _h - stroke;
-				if(stroke > 1) _x = _x + (stroke / 2);
-				if(stroke > 1) _y = _y + (stroke / 2);
+				if(stroke > 0){
+					this.graphics.lineStyle(stroke, uint(line_color), 1, true);
+					_w = _w - stroke;
+					_h = _h - stroke;
+					if(stroke > 1) _x = _x + (stroke / 2);
+					if(stroke > 1) _y = _y + (stroke / 2);
+				}
 			}
 			
 			if(player_data.backgroundColor != undefined){

@@ -56,15 +56,18 @@ package com.kurbmedia.mediaplayers{
 			
 		}
 		
+
 		protected function has_control(control_name:String):Boolean{
 			for(var i = 0; i < player_data.controls.length; i++) if(player_data.controls[i].name == control_name) return true;
 			return false;
 		}
 		
 		public function control_styles(control_name:String):Object{
+			var defaults = player_data.defaults;
 			var styles = {};
 			for(var i = 0; i < player_data.controls.length; i++) if(player_data.controls[i].name == control_name) styles = player_data.controls[i];
 			for(i in styles) if(styles[i] == "") styles[i] = undefined;
+			for(i in defaults) if(styles[i] == undefined && defaults[i] != "") styles[i] = defaults[i];
 			return styles;
 		}
 		
