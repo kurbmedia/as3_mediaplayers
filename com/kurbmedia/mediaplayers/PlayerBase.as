@@ -4,19 +4,21 @@ package com.kurbmedia.mediaplayers{
 	import flash.display.Sprite;
 	import flash.text.TextField;
 	import flash.events.IOErrorEvent;
+	import flash.events.Event;
 	
+	import com.kurbmedia.utils.XmlParser;
 	import com.kurbmedia.mediaplayers.events.PlayerEvent;	
 	import com.kurbmedia.mediaplayers.drawing.DrawingObject;
 	import com.kurbmedia.mediaplayers.controls.*;
 	
 	import flash.net.URLRequest;
+	import flash.net.URLLoader;
+	import flash.xml.*;
 	
 	public class PlayerBase extends MovieClip{
 		
 		protected var player_base:DrawingObject;
 		public    var player_data:Object;
-		
-		protected var _config;	
 		
 		public var play_pause_button:PlayPauseButton;
 		public var play_button:PlayButton;
@@ -28,11 +30,7 @@ package com.kurbmedia.mediaplayers{
 		protected var has_metadata:Boolean = false;
 		protected var is_playing:Boolean   = false;
 		
-		public function PlayerBase(config){	
-
-			_config = config;
-			
-			addEventListener(PlayerEvent.RENDER_COMPLETE, _config.render_complete);
+		public function PlayerBase(){	
 			
 			/*
 				Player data variables:
@@ -51,22 +49,38 @@ package com.kurbmedia.mediaplayers{
 
 			player_data = new Object();
 			
-			if(root.loaderInfo.parameters.configure != undefined){
-				for(var i in root.loaderInfo.parameters.configure) player_data[i] = root.loaderInfo.parameters.configure[i];
-			}
+			var xml_loader = new URLLoader();			
+			xml_loader.addEventListener(Event.COMPLETE, process_data);
+			//xml_loader.load(new URLRequest('../configs/audio_player.xml'));
+			xml_loader.load(new URLRequest(root.loaderInfo.parameters.xmlPath));
+			
+		}
+		
+		protected function has_control(control_name:String):Boolean{
+			for(var i = 0; i < player_data.controls.length; i++) if(player_data.controls[i].name == control_name) return true;
+			return false;
+		}
+		
+		public function control_styles(control_name:String):Object{
+			var styles = {};
+			for(var i = 0; i < player_data.controls.length; i++) if(player_data.controls[i].name == control_name) styles = player_data.controls[i];
+			for(i in styles) if(styles[i] == "") styles[i] = undefined;
+			return styles;
+		}
+		
+		private function process_data(e:Event){
+			XML.ignoreWhitespace = true;
+			var parser = new XmlParser();
+			player_data = parser.parse(new XML(e.target.data));
+			player_data.file = { url:root.loaderInfo.parameters.file, autoPlay:root.loaderInfo.parameters.autoPlay };
 			
 			player_base   = new DrawingObject();
 			player_base.x = player_base.y = 0;
 			addChildAt(player_base, 0);
 			
-			player_base.draw(0,0, stage.stageWidth, stage.stageHeight, player_data);
-
-			dispatchEvent(new PlayerEvent(PlayerEvent.CONSTRUCT_COMPLETE));
+			player_base.draw(0,0, stage.stageWidth, stage.stageHeight, player_data.player);
 			
-		}
-		
-		protected function request_file(file_path:String):URLRequest{
-			return new URLRequest(file_path);
+			dispatchEvent(new PlayerEvent(PlayerEvent.CONSTRUCT_COMPLETE));
 		}
 		
 		protected function metadata_loaded(e:*){
@@ -74,6 +88,10 @@ package com.kurbmedia.mediaplayers{
 		}
 		
 		protected function load_error(e:IOErrorEvent){}
+		
+		protected function request_file(file_path:String):URLRequest{
+			return new URLRequest(file_path);
+		}
 		
 	}
 	

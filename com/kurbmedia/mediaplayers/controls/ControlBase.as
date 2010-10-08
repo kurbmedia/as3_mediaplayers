@@ -70,7 +70,9 @@ package com.kurbmedia.mediaplayers.controls{
 		
 		private function setup_control(e:Event){			
 			
-			player_data = MovieClip(root).player_data;
+			
+			player_data = MovieClip(root).control_styles(this.name);
+			
 			_root = MovieClip(root);
 			
 			MovieClip(root).removeEventListener(PlayerEvent.CONSTRUCT_COMPLETE, setup_control);
@@ -110,9 +112,9 @@ package com.kurbmedia.mediaplayers.controls{
 			bg_normal.x = bg_down.x = bg_hover.x = 0;
 			bg_normal.y = bg_down.y = bg_hover.y = 0;
 			
-			bg_normal.draw(player_data.buttonColor);
-			bg_hover.draw(player_data.buttonHoverColor);
-			bg_down.draw(player_data.buttonDownColor);
+			bg_normal.draw(player_data);
+			bg_hover.draw(player_data.hoverColor);
+			bg_down.draw(player_data.downColor);
 			
 			addChildAt(bg_normal, 0);
 			

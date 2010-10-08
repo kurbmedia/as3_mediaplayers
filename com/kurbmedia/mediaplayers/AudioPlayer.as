@@ -6,9 +6,10 @@ package com.kurbmedia.mediaplayers{
 	import flash.events.IOErrorEvent;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer; 
+	import flash.text.TextFormat;
+	import flash.text.TextField;
 	
 	import com.kurbmedia.mediaplayers.events.PlayerEvent;
-	import com.kurbmedia.mediaplayers.configs.AudioConfig;
 	
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
@@ -24,22 +25,29 @@ package com.kurbmedia.mediaplayers{
 		private var audio_progress = 0;		
 				
 		public function AudioPlayer(){
-			
-			super(new AudioConfig(stage, MovieClip(root)));
-			
-			addEventListener(PlayerEvent.PLAY_DATA, _config.audio_playing);
-			addEventListener(PlayerEvent.PAUSE_DATA, _config.audio_paused);
-			addEventListener(PlayerEvent.STOP_DATA, _config.audio_stopped);
-			addEventListener(PlayerEvent.MUTE_DATA, _config.audio_mute);
-			addEventListener(PlayerEvent.UNMUTE_DATA, _config.audio_unmute);
+			addEventListener(PlayerEvent.CONSTRUCT_COMPLETE, init_player);
+			super();			
+		}
+		
+		private function init_player(e:PlayerEvent){
 			
 			addEventListener(PlayerEvent.PLAY_DATA, play_audio);
 			addEventListener(PlayerEvent.PAUSE_DATA, pause_audio);
 			addEventListener(PlayerEvent.MUTE_DATA, mute_audio);
 			addEventListener(PlayerEvent.UNMUTE_DATA, mute_audio);
 			
-			dispatchEvent(new PlayerEvent(PlayerEvent.RENDER_COMPLETE));
+			if(has_control('timer_text')){
+				var txt_styles = control_styles('timer_text');
+				if(txt_styles != undefined && txt_styles.fontColor != undefined){
+					var tf = new TextFormat();
+					tf.color = uint(txt_styles.fontColor);
+					timer_text.defaultTextFormat = tf;
+				}
+				
+				timer_text.text = "Loading....";
+			}
 			
+			dispatchEvent(new PlayerEvent(PlayerEvent.RENDER_COMPLETE));
 			
 			audio 		    = new Sound();
 			audio_channel   = new SoundChannel();
@@ -53,9 +61,7 @@ package com.kurbmedia.mediaplayers{
 			audio.addEventListener(IOErrorEvent.IO_ERROR, load_error);  
 			audio.addEventListener(Event.ID3, metadata_loaded);
 			
-			audio_channel.addEventListener(Event.SOUND_COMPLETE, update_complete);
-			
-			if(getChildByName('timer_text')) timer_text.text = "Loading....";
+			audio_channel.addEventListener(Event.SOUND_COMPLETE, update_complete);			
 			
 		}
 		
@@ -63,12 +69,12 @@ package com.kurbmedia.mediaplayers{
 			
 			var a = (dir == true) ? 1 : .5;
 			
-			if(getChildByName('play_pause_button')){
+			if(has_control('play_pause_button')){
 				play_pause_button.alpha   	   = a;
 				play_pause_button.mouseEnabled = dir;
 			}
 
-			if(getChildByName('play_button')){
+			if(has_control('play_button')){
 				play_button.alpha 		 = a;
 				play_button.mouseEnabled = dir;
 			}
@@ -77,16 +83,18 @@ package com.kurbmedia.mediaplayers{
 		private function load_progress(e:ProgressEvent){
 			var percent:Number = Math.round(e.bytesLoaded / e.bytesTotal * 100);
 			if((has_metadata || percent > 20) && !is_playing){
-				if(getChildByName('progress_bar') || getChildByName('timer_text')){
+				if(has_control('progress_bar') || has_control('timer_text')){
 					update_timer = new Timer(100);  
 					update_timer.addEventListener(TimerEvent.TIMER, update_progress);  
 					update_timer.start();
 				}
 				
-				enable_play_buttons(true);				
+				enable_play_buttons(true);
 				
-				//dispatchEvent(new PlayerEvent(PlayerEvent.PLAY_DATA));
-				//is_playing = true;
+				if(player_data.file.autoPlay){				
+					dispatchEvent(new PlayerEvent(PlayerEvent.PLAY_DATA));
+					is_playing = true;
+				}
 			}
 		}
 		
@@ -123,7 +131,7 @@ package com.kurbmedia.mediaplayers{
 		
 		private function update_progress(e:TimerEvent){
 			
-			if(getChildByName('timer_text')){
+			if(has_control('timer_text')){
 				var total_min = Math.floor(audio.length / 1000 / 60);  
 				var total_sec = Math.floor(audio.length / 1000) % 60;  
 				var curr_min  = Math.floor(audio_channel.position / 1000 / 60);  
@@ -135,7 +143,7 @@ package com.kurbmedia.mediaplayers{
 				timer_text.text = (audio.id3.TIME != undefined || audio.bytesLoaded >= audio.bytesTotal) ? (curr_min + ':' + curr_sec + ' / ' + total_min + ':' + total_sec) : (curr_min + ':' + curr_sec + ' / --:--');
 			}
 			
-			if(getChildByName('progress_bar')){
+			if(has_control('progress_bar')){
 				if(audio.id3.TIME != undefined){
 					progress_bar.update_progress(audio_channel.position / audio.length);
 					return;

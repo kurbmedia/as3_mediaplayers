@@ -9,7 +9,11 @@ package com.kurbmedia.mediaplayers.drawing{
 		
 		public function draw(_x, _y, _w, _h, player_data:Object){
 			
-			if(player_data.strokeColor != undefined) this.graphics.lineStyle(1, uint(player_data.strokeColor));
+			if(player_data.strokeColor != undefined){ 
+				this.graphics.lineStyle(1, uint(player_data.strokeColor));
+				_w = _w - 1;
+				_h = _h - 1;
+			}
 			
 			if(player_data.backgroundColor != undefined){
 				var bgcolor = convert_to_uint(player_data.backgroundColor)
