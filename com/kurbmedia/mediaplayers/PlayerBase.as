@@ -75,7 +75,10 @@ package com.kurbmedia.mediaplayers{
 			XML.ignoreWhitespace = true;
 			var parser = new XmlParser();
 			player_data = parser.parse(new XML(e.target.data));
-			player_data.file = { url:root.loaderInfo.parameters.file, autoPlay:root.loaderInfo.parameters.autoPlay };
+			player_data.file = { 
+				url:root.loaderInfo.parameters.file, 
+				autoPlay:((root.loaderInfo.parameters.autoPlay == undefined || root.loaderInfo.parameters.autoPlay == "false") ? false : true)
+			};
 			
 			player_base   = new DrawingObject();
 			player_base.x = player_base.y = 0;

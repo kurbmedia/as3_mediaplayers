@@ -14,6 +14,7 @@ package com.kurbmedia.mediaplayers{
 	import flash.media.Sound;
 	import flash.media.SoundChannel;
 	import flash.media.SoundTransform;
+	import flash.media.SoundLoaderContext;
 	
 	public class AudioPlayer extends PlayerBase{
 			
@@ -44,7 +45,7 @@ package com.kurbmedia.mediaplayers{
 					timer_text.defaultTextFormat = tf;
 				}
 				
-				timer_text.text = "Loading....";
+				timer_text.text = "Loading..";
 			}
 			
 			dispatchEvent(new PlayerEvent(PlayerEvent.RENDER_COMPLETE));
@@ -53,7 +54,7 @@ package com.kurbmedia.mediaplayers{
 			audio_channel   = new SoundChannel();
 			audio_transform = new SoundTransform(1,1);
 			
-			audio.load(request_file(player_data.file.url));
+			audio.load(request_file(player_data.file.url), new SoundLoaderContext(1000, false));			
 			enable_play_buttons(false);
 			
 			audio.addEventListener(ProgressEvent.PROGRESS, load_progress);  
@@ -91,7 +92,7 @@ package com.kurbmedia.mediaplayers{
 				
 				enable_play_buttons(true);
 				
-				if(player_data.file.autoPlay){				
+				if(player_data.file.autoPlay === true){				
 					dispatchEvent(new PlayerEvent(PlayerEvent.PLAY_DATA));
 					is_playing = true;
 				}
@@ -130,7 +131,7 @@ package com.kurbmedia.mediaplayers{
 		}
 		
 		private function update_progress(e:TimerEvent){
-			
+
 			if(has_control('timer_text')){
 				var total_min = Math.floor(audio.length / 1000 / 60);  
 				var total_sec = Math.floor(audio.length / 1000) % 60;  
@@ -140,14 +141,14 @@ package com.kurbmedia.mediaplayers{
 				if (total_sec < 10) total_sec = '0' + total_sec;  
 				if (curr_sec < 10)  curr_sec  = '0' + curr_sec;  
 
-				timer_text.text = (audio.id3.TIME != undefined || audio.bytesLoaded >= audio.bytesTotal) ? (curr_min + ':' + curr_sec + ' / ' + total_min + ':' + total_sec) : (curr_min + ':' + curr_sec + ' / --:--');
+				if(audio.bytesLoaded >= audio.bytesTotal){
+					timer_text.text = curr_min + ':' + curr_sec + ' / ' + total_min + ':' + total_sec
+				}else{
+					timer_text.text = curr_min + ':' + curr_sec + ' / --:--';
+				}							
 			}
 			
 			if(has_control('progress_bar')){
-				if(audio.id3.TIME != undefined){
-					progress_bar.update_progress(audio_channel.position / audio.length);
-					return;
-				}
 				
 				var durationloaded = audio.length;
 				var bytesloaded    = audio.bytesLoaded;
