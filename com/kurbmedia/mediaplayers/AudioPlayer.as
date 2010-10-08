@@ -53,7 +53,7 @@ package com.kurbmedia.mediaplayers{
 			audio_channel   = new SoundChannel();
 			audio_transform = new SoundTransform(1,1);
 			
-			audio.load(request_file(player_data.file));
+			audio.load(request_file(player_data.file.url));
 			enable_play_buttons(false);
 			
 			audio.addEventListener(ProgressEvent.PROGRESS, load_progress);  

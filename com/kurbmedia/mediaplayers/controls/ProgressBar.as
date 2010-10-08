@@ -26,23 +26,26 @@ package com.kurbmedia.mediaplayers.controls{
 		
 		private function setup_control(e:PlayerEvent){
 			
-			player_data = MovieClip(root).player_data;			
+			player_data = MovieClip(root).control_styles(this.name);
 			MovieClip(root).removeEventListener(PlayerEvent.CONSTRUCT_COMPLETE, setup_control);
 			
-			if(player_data.progressBarStrokeColor != undefined){
+			if(player_data.strokeColor != undefined || player_data.stroke != undefined){
 				for(var i = 0; i < numChildren; i++){
 					if(getQualifiedClassName(getChildAt(i)) == "flash.display::Shape") removeChild(getChildAt(i));
 				}
 				
+				var stroke     = parseInt(player_data.stroke);
+				var line_color = (player_data.strokeColor == undefined) ? "0x000000" : player_data.strokeColor;
+				
 				border = new Sprite();
-				border.graphics.lineStyle(1, uint(player_data.progressBarStrokeColor));
+				border.graphics.lineStyle(stroke, uint(line_color), 1, true);
 				border.graphics.drawRect(0,0, this.width, this.height);
 				addChild(border);
 			}
 			
-			if(player_data.progressBarColor != undefined){
+			if(player_data.backgroundColor != undefined){
 				var drawer = new DrawingObject();
-				drawer.draw(0,0,progress_indicator.width,progress_indicator.height, { backgroundColor:player_data.progressBarColor });
+				drawer.draw(0,0,progress_indicator.width,progress_indicator.height, player_data);
 				
 				progress_indicator.graphics.clear();
 				progress_indicator.addChild(drawer);

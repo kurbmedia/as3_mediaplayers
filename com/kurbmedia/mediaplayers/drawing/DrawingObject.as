@@ -8,11 +8,17 @@ package com.kurbmedia.mediaplayers.drawing{
 		public function DrawingObject(){}
 		
 		public function draw(_x, _y, _w, _h, player_data:Object){
-			
-			if(player_data.strokeColor != undefined){ 
-				this.graphics.lineStyle(1, uint(player_data.strokeColor));
-				_w = _w - 1;
-				_h = _h - 1;
+						
+			if(player_data.strokeColor != undefined || player_data.stroke != undefined){ 
+				
+				var stroke     = parseInt(player_data.stroke);
+				var line_color = (player_data.strokeColor == undefined) ? "0x000000" : player_data.strokeColor;
+				
+				this.graphics.lineStyle(stroke, uint(line_color), 1, true);
+				_w = _w - stroke;
+				_h = _h - stroke;
+				if(stroke > 1) _x = _x + (stroke / 2);
+				if(stroke > 1) _y = _y + (stroke / 2);
 			}
 			
 			if(player_data.backgroundColor != undefined){

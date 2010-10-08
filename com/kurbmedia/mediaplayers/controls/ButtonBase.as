@@ -12,12 +12,8 @@ package com.kurbmedia.mediaplayers.controls{
 			if(colors == undefined || colors == null) return;
 			var new_base = new DrawingObject();
 			
-			if(colors is String){
-				new_base.draw(0,0,this.width, this.height, { backgroundColor:colors, borderRadius:5 });
-			}else{
-				colors.borderRadius = 5;
-				new_base.draw(0,0,this.width, this.height, colors);
-			}
+			colors.borderRadius = (colors.borderRadius == undefined) ? 5 : colors.borderRadius;
+			new_base.draw(0,0,this.width, this.height, colors);
 			
 			this.graphics.clear();
 			addChild(new_base);

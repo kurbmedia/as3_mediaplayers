@@ -3,7 +3,7 @@
 	Sample audio player configuration file.
 -->
 <config>
-	<player backgroundColor="0x06A9DE" strokeColor="0x333333" borderRadius="10" />
+	<player backgroundColor="0x06A9DE" strokeColor="0x333333" borderRadius="10" stroke="2" />
 	<controls>
 		<!-- 
 			
@@ -16,13 +16,13 @@
 				timer_text
 				
 			Available attributes for buttons: backgroundColor, iconColor, hoverColor, downColor
-			Available attributes for progress bar: backgroundColor, strokeColor
+			Available attributes for progress bar: backgroundColor, strokeColor, stroke (thickness)
 			Available attributes for timer test: fontColor
 			
 		-->
 		<control name="play_pause_button" backgroundColor="0x04455b,0x042530" iconColor="" hoverColor="" downColor="" />
 		<control name="mute_button" backgroundColor="0x04455b,0x042530" iconColor="" hoverColor="" downColor="" />
-		<control name="progress_bar" backgroundColor="0x04455b,0x042530" strokeColor="" />
+		<control name="progress_bar" backgroundColor="0x04455b,0x042530" strokeColor="" stroke="2" />
 		<control name="timer_text" fontColor="0xFFFFFF" />
 	</controls>
 </config>
